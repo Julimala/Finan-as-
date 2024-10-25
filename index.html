@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Finanças Pessoais</title>
+    <style>
+        /* CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .logo {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+        }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+
+        .sidebar .close-btn {
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Calculadora de Finanças Pessoais</h1>
+</header>
+
+<div class="sidebar" id="sidebar">
+    <span class="close-btn" onclick="toggleSidebar()">✖</span>
+    <a href="#">Criar Conta</a>
+    <a href="#">Feedback</a>
+</div>
+
+<button class="btn" style="margin: 20px;" onclick="toggleSidebar()">☰ Menu</button>
+
+<div class="container">
+    <div class="logo">Nome da Empresa</div>
+
+    <div class="input-group">
+        <label for="income">Renda Mensal (R$):</label>
+        <input type="number" id="income">
+    </div>
+
+    <div class="input-group">
+        <label for="expenses">Despesas Mensais (R$):</label>
+        <input type="number" id="expenses">
+    </div>
+
+    <div class="input-group">
+        <label for="savingsGoal">Meta de Poupança (R$):</label>
+        <input type="number" id="savingsGoal">
+    </div>
+
+    <button class="btn" onclick="calculate()">Calcular</button>
+
+    <div class="results" id="results"></div>
+</div>
+
+<script>
+    // JavaScript
+    function calculate() {
+        const income = parseFloat(document.getElementById('income').value);
+        const expenses = parseFloat(document.getElementById('expenses').value);
+        const savingsGoal = parseFloat(document.getElementById('savingsGoal').value);
+
+        if (isNaN(income) || isNaN(expenses) || isNaN(savingsGoal)) {
+            document.getElementById('results').innerText = "Por favor, insira valores válidos.";
+            return;
+        }
+
+        const netIncome = income - expenses;
+        let message = `Renda Líquida Mensal: R$ ${netIncome.toFixed(2)}\n`;
+
+        if (netIncome >= savingsGoal) {
+            message += "Parabéns! Você alcançou sua meta de poupança.";
+        } else {
+            const requiredSavings = savingsGoal - netIncome;
+            message += `Você precisa economizar mais R$ ${requiredSavings.toFixed(2)} para atingir sua meta.`;
+        }
+
+        document.getElementById('results').innerText = message;
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('show');
+    }
+</script>
+
+</body>
+</html>
